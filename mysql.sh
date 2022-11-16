@@ -198,7 +198,7 @@ EOF
     mysql -uroot -p$mysqlPassword -e "flush privileges;"
     mysqlNewPassword=$(cat /dev/urandom | head -n 16 | md5sum | head -c 16) # MySQL新密码
     mysql -uroot -p$mysqlPassword -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${mysqlNewPassword}';"
-    echo ${mysqlNewPassword}
+    echo "MySQL初始root密码："${mysqlNewPassword}
     panel writeMysqlPassword ${mysqlNewPassword}
 
     # 安装 MySQL 插件
