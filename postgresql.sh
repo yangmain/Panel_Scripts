@@ -31,7 +31,7 @@ Install_PostgreSQL() {
     sudo /usr/pgsql-${postgresql_Version}/bin/postgresql-${postgresql_Version}-setup initdb
     sudo systemctl enable postgresql-${postgresql_Version}
     sudo systemctl start postgresql-${postgresql_Version}
-    # php需要安装libpq才能加载pdo_pgsql拓展
+    # php需要安装libpq才能加载pdo_pgsql拓展（postgresql-devel）
 
     # 安装 PostgreSQL 插件
 }
