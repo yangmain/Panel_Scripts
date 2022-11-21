@@ -28,16 +28,16 @@ Prepare_system() {
 		exit 1
 	fi
 
-	download_Url="https://hzbk.net"                                                                # 下载节点
-	setup_Path="/www"                                                                              # 面板安装目录
-	php_Path="${setup_Path}/server/php/panel"                                                      # 面板PHP目录
-	nginx_Path="${setup_Path}/server/nginx"                                                        # 面板Nginx目录
-	php_Version="8.1.12"                                                                           # 面板PHP版本
-	nginx_Version="1.21.4.1"                                                                       # 面板Nginx版本
-	openssl_Version="1.1.1s"                                                                       # Nginx的openssl版本
-	panel_Version="20221102"                                                                       # 面板版本
-	sshPort=$(cat /etc/ssh/sshd_config | grep 'Port ' | awk '{print $2}')                          # 系统的SSH端口（部分服务器可能不是22）
-	cpuCore=$(cat /proc/cpuinfo | grep "processor" | wc -l)                                        # CPU核心数
+	download_Url="https://hzbk.net"                                       # 下载节点
+	setup_Path="/www"                                                     # 面板安装目录
+	php_Path="${setup_Path}/server/php/panel"                             # 面板PHP目录
+	nginx_Path="${setup_Path}/server/nginx"                               # 面板Nginx目录
+	php_Version="8.1.12"                                                  # 面板PHP版本
+	nginx_Version="1.21.4.1"                                              # 面板Nginx版本
+	openssl_Version="1.1.1s"                                              # Nginx的openssl版本
+	panel_Version="20221121"                                              # 面板版本
+	sshPort=$(cat /etc/ssh/sshd_config | grep 'Port ' | awk '{print $2}') # 系统的SSH端口（部分服务器可能不是22）
+	cpuCore=$(cat /proc/cpuinfo | grep "processor" | wc -l)               # CPU核心数
 
 	# 如果核心数不合法，设置为1
 	if [ -z "${cpuCore}" ]; then
@@ -675,6 +675,156 @@ http {
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
+        location /phpfpm_100_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_101_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_102_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_103_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_104_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_105_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_106_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_107_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_108_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_109_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_110_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_111_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_112_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_113_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_114_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_115_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_116_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_117_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_118_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_119_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_120_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_121_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_122_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_123_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_124_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_125_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_126_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_127_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_128_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
+		location /phpfpm_129_status {
+            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
+        }
     }
     include /www/server/vhost/*.conf;
 }
@@ -703,7 +853,7 @@ EOF
 	# 写入nginx 默认站点页
 	cat >${nginx_Path}/html/index.html <<EOF
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <title>耗子Linux面板</title>
@@ -711,7 +861,23 @@ EOF
 <body>
 <h1>耗子Linux面板</h1>
 <p>这是耗子Linux面板的OpenResty默认页面！</p>
-<p>当您看到此页面，说明您尚未添加域名与站点绑定。</p>
+<p>当您看到此页面，说明尚未添加域名与站点绑定。</p>
+</body>
+</html>
+EOF
+
+	# 写入nginx 站点停止页
+	cat >${nginx_Path}/html/stop.html <<EOF
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>网站已停止 - 耗子Linux面板</title>
+</head>
+<body>
+<h1>耗子Linux面板</h1>
+<p>该网站已被管理员停止访问！</p>
+<p>当您看到此页面，该网站已被管理员停止对外访问，请联系管理员了解详情。</p>
 </body>
 </html>
 EOF
@@ -816,15 +982,22 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
-  systemctl daemon-reload
-  systemctl enable panel.service
-  systemctl start panel.service
+	systemctl daemon-reload
+	systemctl enable panel.service
+	systemctl start panel.service
+	# 写入计划任务
+	echo "*/1 * * * * php-panel /www/panel/artisan schedule:run >> /dev/null 2>&1" >>/var/spool/cron/root
+	# 重载计划任务
+	crontab /var/spool/cron/root
+	# 写入OpenResty插件安装状态
+	php-panel artisan panel writePluginInstall openresty
 
-  clear
-  echo -e $LOGO
-  echo '面板安装成功！'
-  echo -e $HR
-  php-panel artisan panel getInfo
+	clear
+	echo -e $LOGO
+	echo '面板安装成功！'
+	echo -e $HR
+	php-panel artisan panel init
+	php-panel artisan panel getInfo
 }
 
 clear

@@ -193,15 +193,24 @@ EOF
     systemctl enable mysqld
     systemctl start mysqld
     mysqlPassword=$(grep 'temporary password' ${mysql_Path}/mysql-error.log | awk -F ": " '{print $2}') # MySQL默认密码
+    echo "MySQL临时root密码："${mysqlPassword}
     mysql -uroot -p$mysqlPassword -e "drop database test"
     mysql -uroot -p$mysqlPassword -e "delete from mysql.user where user='';"
     mysql -uroot -p$mysqlPassword -e "flush privileges;"
-    mysqlNewPassword=$(cat /dev/urandom | head -n 16 | md5sum | head -c 16) # MySQL新密码
+    mysqlNewPassword="A$(cat /dev/urandom | head -n 16 | md5sum | head -c 16)@" # MySQL新密码
     mysql -uroot -p$mysqlPassword -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${mysqlNewPassword}';"
     echo "MySQL初始root密码："${mysqlNewPassword}
     panel writeMysqlPassword ${mysqlNewPassword}
+    systemctl restart mysqld
 
     # 安装 MySQL 插件
+    rm -rf /www/panel/plugins/Mysql
+    mkdir /www/panel/plugins/Mysql
+    wget -O /www/panel/plugins/Mysql/mysql.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=mysql"
+    cd /www/panel/plugins/Mysql
+    unzip mysql.zip && rm -rf mysql.zip
+    # 写入插件安装状态
+    panel writePluginInstall mysql
 }
 
 Uninstall_MySQL() {
@@ -211,7 +220,8 @@ Uninstall_MySQL() {
     # 删除mysql
     dnf remove mysql-community-server -y
     # 删除插件
-    rm -rf /www/panel/plugins/mysql
+    rm -rf /www/panel/plugins/Mysql
+    panel writePluginUnInstall mysql
 }
 
 Update_MySQL() {
@@ -224,11 +234,11 @@ Update_MySQL() {
     # 更新插件
     #mysqlPluginVersion = $(wget -qO- -t1 -T2 "https://api.panel.haozi.xyz/api/plugin/version?slug=mysql")
     #mysqlPluginUrl = $(wget -qO- -t1 -T2 "https://api.panel.haozi.xyz/api/plugin/url?slug=mysql")
-    rm -rf /www/panel/plugins/mysql
-    mkdir /www/panel/plugins/mysql
-    #wget -O /www/panel/plugins/mysql/mysql.zip ${mysqlPluginUrl}
-    #cd /www/panel/plugins/mysql
-    #unzip mysql.zip && rm -rf mysql.zip
+    rm -rf /www/panel/plugins/Mysql
+    mkdir /www/panel/plugins/Mysql
+    wget -O /www/panel/plugins/Mysql/mysql.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=mysql"
+    cd /www/panel/plugins/Mysql
+    unzip mysql.zip && rm -rf mysql.zip
 }
 
 if [ "$action" == 'install' ]; then

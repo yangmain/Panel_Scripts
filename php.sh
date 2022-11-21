@@ -198,26 +198,34 @@ EOF
 	systemctl enable php-fpm-${php_Version}.service
 	systemctl start php-fpm-${php_Version}.service
 
-  # 下载插件
-  mkdir /www/panel/plugins/php${php_Version}
-  cd /www/panel/plugins/php${php_Version}
-  #wget -O php${php_Version}.zip ${download_Url}/panel/plugins/php${php_Version}.zip
-  #unzip php${php_Version}.zip
+	# 下载插件
+	rm -rf /www/panel/plugins/Php${php_Version}
+    mkdir /www/panel/plugins/Php${php_Version}
+    wget -O /www/panel/plugins/Php${php_Version}/php${php_Version}.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=php${php_Version}"
+    cd /www/panel/plugins/Php${php_Version}
+    unzip php${php_Version}.zip && rm -rf php${php_Version}.zip
+    # 写入插件安装状态
+    panel writePluginInstall php${php_Version}
 }
 
 Uninstall_Php() {
 	# 停止php-fpm
-	/etc/init.d/php-fpm-$php_Version stop
+	systemctl stop php-fpm-$php_Version
 
 	# 删除服务
-	chkconfig --del php-fpm-${php_version}
-	chkconfig --level 2345 php-fpm-${php_version} off
+	systemctl disable php-fpm-${php_version}
+	rm -rf /lib/systemd/system/php-fpm-${php_Version}.service
+	systemctl daemon-reload
+
 	# 删除php目录
 	rm -rf $php_Path
 
 	# 删除php命令
 	rm -f /usr/bin/php-${php_Version}
-	rm -f /etc/init.d/php-fpm-$php_version
+
+	# 删除插件
+	rm -rf /www/panel/plugins/Php${php_Version}
+	panel writePluginUnInstall php${php_Version}
 }
 
 if [ "$action" == 'install' ] || [ "$action" == 'update' ]; then

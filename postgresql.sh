@@ -23,7 +23,7 @@ Download_PostgreSQL() {
     sed -i "s@https://download.postgresql.org/pub@https://mirrors.aliyun.com/postgresql@g" /etc/yum.repos.d/pgdg-redhat-all.repo
     sudo dnf -qy module disable postgresql
     sudo dnf install -y postgresql${postgresql_Version}-server postgresql${postgresql_Version}-devel
-    sed -i "s@Environment=PGDATA=/var/lib/pgsql/15/data/@Environment=PGDATA=${postgresql_Path}/${postgresql_Version}@g" /usr/lib/systemd/system/postgresql-${postgresql_Version}.service
+    sed -i "s@Environment=PGDATA=/var/lib/pgsql/${postgresql_Version}/data/@Environment=PGDATA=${postgresql_Path}/${postgresql_Version}@g" /usr/lib/systemd/system/postgresql-${postgresql_Version}.service
 }
 
 Install_PostgreSQL() {
