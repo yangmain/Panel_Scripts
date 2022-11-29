@@ -6,11 +6,10 @@ export PATH
 
 HR="+----------------------------------------------------"
 
-action="$1"        # 操作
+action="$1"             # 操作
 postgresql_Version="$2" # PostgreSQL版本
 
-download_Url="https://dl-cdn.haozi.xyz" # 下载节点
-setup_Path="/www"                       # 面板安装目录
+setup_Path="/www"                                 # 面板安装目录
 postgresql_Path="${setup_Path}/server/postgresql" # PostgreSQL目录
 
 Download_PostgreSQL() {
@@ -31,9 +30,15 @@ Install_PostgreSQL() {
     sudo /usr/pgsql-${postgresql_Version}/bin/postgresql-${postgresql_Version}-setup initdb
     sudo systemctl enable postgresql-${postgresql_Version}
     sudo systemctl start postgresql-${postgresql_Version}
-    # php需要安装libpq才能加载pdo_pgsql拓展（postgresql-devel）
 
     # 安装 PostgreSQL 插件
+    rm -rf /www/panel/plugins/Postgresql
+    mkdir /www/panel/plugins/Postgresql
+    wget -O /www/panel/plugins/Postgresql/postgresql.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=postgresql"
+    cd /www/panel/plugins/Postgresql
+    unzip postgresql.zip && rm -rf postgresql.zip
+    # 写入插件安装状态
+    panel writePluginInstall postgresql
 }
 
 Uninstall_PostgreSQL() {
@@ -43,7 +48,8 @@ Uninstall_PostgreSQL() {
     # 删除 PostgreSQL
     dnf remove postgresql${postgresql_Version}-server -y
     # 删除插件
-    rm -rf /www/panel/plugins/postgresql-${postgresql_Version}
+    rm -rf /www/panel/plugins/Postgresql
+    panel writePluginUnInstall postgresql
 }
 
 Update_PostgreSQL() {
@@ -54,13 +60,11 @@ Update_PostgreSQL() {
     # 启动 PostgreSQL
     systemctl start postgresql${postgresql_Version}-server
     # 更新插件
-    #mysqlPluginVersion = $(wget -qO- -t1 -T2 "https://api.panel.haozi.xyz/api/plugin/version?slug=mysql")
-    #mysqlPluginUrl = $(wget -qO- -t1 -T2 "https://api.panel.haozi.xyz/api/plugin/url?slug=mysql")
-    rm -rf /www/panel/plugins/postgresql${postgresql_Version}
-    mkdir /www/panel/plugins/postgresql${postgresql_Version}
-    #wget -O /www/panel/plugins/mysql/mysql.zip ${mysqlPluginUrl}
-    #cd /www/panel/plugins/mysql
-    #unzip mysql.zip && rm -rf mysql.zip
+    rm -rf /www/panel/plugins/Postgresql
+    mkdir /www/panel/plugins/Postgresql
+    wget -O /www/panel/plugins/Postgresql/postgresql.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=postgresql"
+    cd /www/panel/plugins/Postgresql
+    unzip postgresql.zip && rm -rf postgresql.zip
 }
 
 if [ "$action" == 'install' ]; then

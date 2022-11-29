@@ -9,7 +9,7 @@ HR="+----------------------------------------------------"
 action="$1"      # 操作
 php_Version="$2" # PHP版本
 
-download_Url="https://hzbk.net"                 # 下载节点
+download_Url="https://dl.panel.haozi.xyz"               # 下载节点
 setup_Path="/www"                                       # 面板安装目录
 php_Path="${setup_Path}/server/php/${php_Version}"      # PHP目录
 cpuCore=$(cat /proc/cpuinfo | grep "processor" | wc -l) # CPU核心数
@@ -21,13 +21,16 @@ Download_Php() {
 	cd ${php_Path}
 
 	# 下载源码
-	if [ "${php_Version}" == "80" ];then
-    	wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/panel/php/php-8.0.20.tar.gz
+	if [ "${php_Version}" == "74" ]; then
+		wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-7.4.33.tar.gz
 	fi
-	if [ "${php_Version}" == "81" ];then
-		wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/panel/php/php-8.1.12.tar.gz
+	if [ "${php_Version}" == "80" ]; then
+		wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-8.0.26.tar.gz
 	fi
-	
+	if [ "${php_Version}" == "81" ]; then
+		wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-8.1.13.tar.gz
+	fi
+
 	if [ "$?" != "0" ]; then
 		echo -e $HR
 		echo "错误：PHP-${php_Version}下载失败，请检查网络是否正常。"
@@ -77,17 +80,11 @@ Install_Php() {
 	fi
 	cd ../../
 
+	# 写入拓展标记位
+	echo ";下方标记位禁止删除，否则将导致PHP拓展无法正常安装！" >>${php_Path}/etc/php.ini
+	echo ";haozi" >>${php_Path}/etc/php.ini
 	# 写入zip拓展到php配置
-	if [ "${php_version}" == "74" ]; then
-		extFile="/www/server/php/74/lib/php/extensions/no-debug-non-zts-20190902/zip.so"
-	elif [ "${php_Version}" == "80" ]; then
-		extFile="/www/server/php/80/lib/php/extensions/no-debug-non-zts-20200930/zip.so"
-	elif [ "${php_Version}" == "81" ]; then
-		extFile="/www/server/php/81/lib/php/extensions/no-debug-non-zts-20210902/zip.so"
-	fi
-	if [ -f "${extFile}" ]; then
-		echo "extension = zip.so" >>${php_Path}/etc/php.ini
-	fi
+	echo "extension=zip" >>${php_Path}/etc/php.ini
 
 	# 设置软链接
 	rm -f /usr/bin/php-${php_Version}
@@ -188,8 +185,6 @@ location ~ [^/]\.php(/|$) {
 EOF
 
 	# 添加php-fpm到服务
-	echo ";ionCube" >>${php_Path}/etc/php.ini
-	echo ";opcache" >>${php_Path}/etc/php.ini
 	\cp ${php_Path}/src/sapi/fpm/php-fpm.service /lib/systemd/system/php-fpm-${php_Version}.service
 	sed -i "/PrivateTmp/d" /lib/systemd/system/php-fpm-${php_Version}.service
 	systemctl daemon-reload
@@ -200,12 +195,12 @@ EOF
 
 	# 下载插件
 	rm -rf /www/panel/plugins/Php${php_Version}
-    mkdir /www/panel/plugins/Php${php_Version}
-    wget -O /www/panel/plugins/Php${php_Version}/php${php_Version}.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=php${php_Version}"
-    cd /www/panel/plugins/Php${php_Version}
-    unzip php${php_Version}.zip && rm -rf php${php_Version}.zip
-    # 写入插件安装状态
-    panel writePluginInstall php${php_Version}
+	mkdir /www/panel/plugins/Php${php_Version}
+	wget -O /www/panel/plugins/Php${php_Version}/php${php_Version}.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=php${php_Version}"
+	cd /www/panel/plugins/Php${php_Version}
+	unzip php${php_Version}.zip && rm -rf php${php_Version}.zip
+	# 写入插件安装状态
+	panel writePluginInstall php${php_Version}
 }
 
 Uninstall_Php() {

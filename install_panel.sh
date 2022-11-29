@@ -28,14 +28,14 @@ Prepare_system() {
 		exit 1
 	fi
 
-	download_Url="https://hzbk.net"                                       # 下载节点
+	download_Url="https://dl.panel.haozi.xyz"                             # 下载节点
 	setup_Path="/www"                                                     # 面板安装目录
 	php_Path="${setup_Path}/server/php/panel"                             # 面板PHP目录
 	nginx_Path="${setup_Path}/server/nginx"                               # 面板Nginx目录
-	php_Version="8.1.12"                                                  # 面板PHP版本
+	php_Version="8.1.13"                                                  # 面板PHP版本
 	nginx_Version="1.21.4.1"                                              # 面板Nginx版本
 	openssl_Version="1.1.1s"                                              # Nginx的openssl版本
-	panel_Version="20221121"                                              # 面板版本
+	panel_Version="20221130"                                              # 面板版本
 	sshPort=$(cat /etc/ssh/sshd_config | grep 'Port ' | awk '{print $2}') # 系统的SSH端口（部分服务器可能不是22）
 	cpuCore=$(cat /proc/cpuinfo | grep "processor" | wc -l)               # CPU核心数
 
@@ -63,11 +63,26 @@ Prepare_system() {
 	# 解除文件打开限制
 	ulimit -n 204800
 	echo 6553560 >/proc/sys/fs/file-max
-	echo "* soft nofile 204800" >>/etc/security/limits.conf
-	echo "* hard nofile 204800" >>/etc/security/limits.conf
-	echo "* soft nproc 204800" >>/etc/security/limits.conf
-	echo "* hard nproc 204800 " >>/etc/security/limits.conf
-	echo fs.file-max = 6553560 >>/etc/sysctl.conf
+	checkSoftNofile=$(cat /etc/security/limits.conf | grep '^* soft nofile .*$')
+	checkHardNofile=$(cat /etc/security/limits.conf | grep '^* hard nofile .*$')
+	checkSoftNproc=$(cat /etc/security/limits.conf | grep '^* soft nproc .*$')
+	checkHardNproc=$(cat /etc/security/limits.conf | grep '^* hard nproc .*$')
+	checkFsFileMax=$(cat /etc/sysctl.conf | grep '^fs.file-max.*$')
+	if [ "${checkSoftNofile}" == "" ]; then
+		echo "* soft nofile 204800" >>/etc/security/limits.conf
+	fi
+	if [ "${checkHardNofile}" == "" ]; then
+		echo "* hard nofile 204800" >>/etc/security/limits.conf
+	fi
+	if [ "${checkSoftNproc}" == "" ]; then
+		echo "* soft nproc 204800" >>/etc/security/limits.conf
+	fi
+	if [ "${checkHardNproc}" == "" ]; then
+		echo "* hard nproc 204800 " >>/etc/security/limits.conf
+	fi
+	if [ "${checkFsFileMax}" == "" ]; then
+		echo fs.file-max = 6553560 >>/etc/sysctl.conf
+	fi
 
 	# 安装依赖
 	dnf install epel-release -y
@@ -87,86 +102,6 @@ Prepare_system() {
 		exit 1
 	fi
 	chmod 444 /etc/pki/tls/certs/ca-bundle.crt
-
-	# libsodium
-	#git clone https://gitee.com/mirrors/libsodium.git --branch stable
-	#if [ "$?" != "0" ]; then
-	#	echo -e $HR
-	#	echo "错误：libsodium下载失败，请检查网络是否正常。"
-	#	rm -rf libsodium
-	#	exit 1
-	#fi
-	#cd libsodium
-	#./configure --prefix=/usr/local/libsodium --with-pic
-	#make -j${cpuCore}
-	#make install
-	#if [ "$?" != "0" ]; then
-	#	echo -e $HR
-	#	echo "错误：libsodium安装失败，请截图错误信息寻求帮助。"
-	#	exit 1
-	#fi
-	#cd ../
-	#rm -rf libsodium
-
-	# icu4c
-	#cd /root
-	#icu4cVer=$(/usr/bin/icu-config --version)
-	#if [ "${icu4cVer:0:2}" -gt "60" ]; then
-	#	icu_Version=$(wget -qO- -t1 -T2 "https://magic.cdn.wepublish.cn/https://api.github.com/repos/unicode-org/icu/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g')
-	#	wget -O icu_${icu_Version}.zip "https://gitee.com/mirrors/icu/repository/archive/${icu_Version}"
-	#	unzip icu_${icu_Version}.zip
-	#	cd icu-${icu_Version}/icu4c/source
-	#	#git clone -b ${icu_Version} https://gitee.com/mirrors/icu.git
-	#	if [ "$?" != "0" ]; then
-	#		echo -e $HR
-	#		echo "错误：icu4c下载失败，请检查网络是否正常。"
-	#		rm -rf icu-${icu_Version}
-	#		exit 1
-	#	fi
-	#	./configure --prefix=/usr/local/icu
-	#	make -j${cpuCore}
-	#	make install
-	#	if [ "$?" != "0" ]; then
-	#		echo -e $HR
-	#		echo "错误：icu4c安装失败，请截图错误信息寻求帮助。"
-	#		exit 1
-	#	fi
-	#	[ -f "/usr/bin/icu-config" ] && mv /usr/bin/icu-config /usr/bin/icu-config.bak
-	#	ln -sf /usr/local/icu/bin/icu-config /usr/bin/icu-config
-	#	echo "/usr/local/icu/lib" >/etc/ld.so.conf.d/zicu.conf
-	#	ldconfig
-	#	cd ../../../
-	#	rm -rf icu-${icu_Version}
-	#	rm -f icu_${icu_Version}.tar.gz
-	#fi
-
-	# oniguruma
-	#onigurumaCheck=$(pkg-config --list-all | grep oniguruma)
-	#if [ -z "${onigurumaCheck}" ]; then
-	#	cd /root
-	#	oniguruma_Version=$(wget -qO- -t1 -T2 "https://magic.cdn.wepublish.cn/https://api.github.com/repos/kkos/oniguruma/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g')
-	#	wget -O oniguruma_${oniguruma_Version}.zip "https://gitee.com/mirrors/oniguruma/repository/archive/${oniguruma_Version}"
-	#	unzip oniguruma_${oniguruma_Version}.zip
-	#	cd oniguruma-${oniguruma_Version}
-	#	#git clone -b ${oniguruma_Version} https://gitee.com/mirrors/oniguruma.git
-	#	if [ "$?" != "0" ]; then
-	#		echo -e $HR
-	#		echo "错误：oniguruma下载失败，请检查网络是否正常。"
-	#		rm -rf oniguruma-${oniguruma_Version}
-	#		exit 1
-	#	fi
-	#	autoreconf -vfi
-	#	./configure --prefix=/usr/local/oniguruma
-	#	make -j${cpuCore}
-	#	make install
-	#	if [ "$?" != "0" ]; then
-	#		echo -e $HR
-	#		echo "错误：oniguruma安装失败，请截图错误信息寻求帮助。"
-	#		exit 1
-	#	fi
-	#	cd ../
-	#	rm -rf oniguruma-${oniguruma_Version}
-	#fi
 }
 
 Auto_Swap() {
@@ -197,7 +132,7 @@ Download_Php() {
 	cd ${php_Path}
 
 	# 下载源码
-	wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/panel/php/php-${php_Version}.tar.gz
+	wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-${php_Version}.tar.gz
 	if [ "$?" != "0" ]; then
 		echo -e $HR
 		echo "错误：面板PHP下载失败，请检查网络是否正常。"
@@ -247,11 +182,16 @@ Install_Php() {
 	fi
 	cd ../../
 
+	# 写入拓展标记位
+	echo ";下方标记位禁止删除，否则将导致PHP拓展无法正常安装！" >>${php_Path}/etc/php.ini
+	echo ";haozi" >>${php_Path}/etc/php.ini
 	# 写入zip拓展到php配置
 	extFile="${php_Path}/lib/php/extensions/no-debug-non-zts-20210902/zip.so"
 	if [ -f "${extFile}" ]; then
-		echo "extension = zip.so" >>${php_Path}/etc/php.ini
+		echo "extension=zip" >>${php_Path}/etc/php.ini
 	fi
+	# 写入opcache拓展到php配置
+	sed -i '/;haozi/a\zend_extension=opcache\nopcache.enable = 1\nopcache.enable_cli=1\nopcache.memory_consumption=128\nopcache.interned_strings_buffer=32\nopcache.max_accelerated_files=100000\nopcache.revalidate_freq=3\nopcache.save_comments=0\nopcache.jit_buffer_size=128m\nopcache.jit=1205' ${php_Path}/etc/php.ini
 
 	# 设置软链接
 	rm -f /usr/bin/php*
@@ -318,8 +258,6 @@ EOF
 	sed -i 's/expose_php = On/expose_php = Off/g' ${php_Path}/etc/php.ini
 
 	# 添加php-fpm到服务
-	echo ";ionCube" >>${php_Path}/etc/php.ini
-	echo ";opcache" >>${php_Path}/etc/php.ini
 	\cp ${php_Path}/src/sapi/fpm/php-fpm.service /lib/systemd/system/php-fpm-panel.service
 	sed -i "s#ExecStart=/www/server/php/panel/sbin/php-fpm --nodaemonize --fpm-config /www/server/php/panel/etc/php-fpm.conf#ExecStart=/www/server/php/panel/sbin/php-fpm -R --nodaemonize --fpm-config /www/server/php/panel/etc/php-fpm.conf#g" /lib/systemd/system/php-fpm-panel.service
 	sed -i "/PrivateTmp/d" /lib/systemd/system/php-fpm-panel.service
@@ -338,40 +276,40 @@ Download_Nginx() {
 	cd ${nginx_Path}
 
 	# 下载源码
-	wget -O ${nginx_Path}/openresty-${nginx_Version}.tar.gz ${download_Url}/panel/nginx/openresty-${nginx_Version}.tar.gz
+	wget -O ${nginx_Path}/openresty-${nginx_Version}.tar.gz ${download_Url}/nginx/openresty-${nginx_Version}.tar.gz
 	tar -xvf openresty-${nginx_Version}.tar.gz
 	rm -f openresty-${nginx_Version}.tar.gz
 	mv openresty-${nginx_Version} src
 	cd src
 
 	# openssl
-	wget -O openssl.tar.gz ${download_Url}/panel/nginx/openssl-${openssl_Version}.tar.gz
+	wget -O openssl.tar.gz ${download_Url}/nginx/openssl-${openssl_Version}.tar.gz
 	tar -zxvf openssl.tar.gz
 	rm -f openssl.tar.gz
 	mv openssl-${openssl_Version} openssl
 	rm -f openssl.tar.gz
 
 	# pcre
-	wget -O pcre-8.45.tar.gz ${download_Url}/panel/nginx/pcre-8.45.tar.gz
+	wget -O pcre-8.45.tar.gz ${download_Url}/nginx/pcre-8.45.tar.gz
 	tar -zxvf pcre-8.45.tar.gz
 	rm -f pcre-8.45.tar.gz
 	mv pcre-8.45 pcre
 	rm -f pcre-8.45.tar.gz
 
 	# ngx_cache_purge
-	wget -O ngx_cache_purge.tar.gz ${download_Url}/panel/nginx/ngx_cache_purge-2.3.tar.gz
+	wget -O ngx_cache_purge.tar.gz ${download_Url}/nginx/ngx_cache_purge-2.3.tar.gz
 	tar -zxvf ngx_cache_purge.tar.gz
 	rm -f ngx_cache_purge.tar.gz
 	mv ngx_cache_purge-2.3 ngx_cache_purge
 	rm -f ngx_cache_purge.tar.gz
 
 	# nginx-sticky-module
-	wget -O nginx-sticky-module.zip ${download_Url}/panel/nginx/nginx-sticky-module.zip
+	wget -O nginx-sticky-module.zip ${download_Url}/nginx/nginx-sticky-module.zip
 	unzip -o nginx-sticky-module.zip
 	rm -f nginx-sticky-module.zip
 
 	# nginx-dav-ext-module
-	wget -c -O nginx-dav-ext-module-3.0.0.tar.gz ${download_Url}/panel/nginx/nginx-dav-ext-module-3.0.0.tar.gz
+	wget -c -O nginx-dav-ext-module-3.0.0.tar.gz ${download_Url}/nginx/nginx-dav-ext-module-3.0.0.tar.gz
 	tar -xvf nginx-dav-ext-module-3.0.0.tar.gz
 	rm -f nginx-dav-ext-module-3.0.0.tar.gz
 	mv nginx-dav-ext-module-3.0.0 nginx-dav-ext-module
@@ -392,12 +330,12 @@ Download_Nginx() {
 	cd ${nginx_Path}/src
 
 	# brotli
-	wget -O ngx_brotli.zip ${download_Url}/panel/nginx/ngx_brotli-1.0.0rc.zip
+	wget -O ngx_brotli.zip ${download_Url}/nginx/ngx_brotli-1.0.0rc.zip
 	unzip ngx_brotli.zip
 	mv ngx_brotli-1.0.0rc ngx_brotli
 	cd ngx_brotli/deps
 	rm -rf brotli
-	wget -O brotli.zip ${download_Url}/panel/nginx/brotli-1.0.9.zip
+	wget -O brotli.zip ${download_Url}/nginx/brotli-1.0.9.zip
 	unzip brotli.zip
 	mv brotli-1.0.9 brotli
 	cd ${nginx_Path}/src
@@ -945,7 +883,7 @@ EOF
 Init_Panel() {
 	mkdir /www/panel
 	# 下载面板zip包并解压
-	wget -O /www/panel/panel.zip ${download_Url}/panel/panel/panel-${panel_Version}.zip
+	wget -O /www/panel/panel.zip ${download_Url}/panel/panel-${panel_Version}.zip
 	cd /www/panel
 	unzip panel.zip
 	rm -rf panel.zip

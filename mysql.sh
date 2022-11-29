@@ -9,9 +9,9 @@ HR="+----------------------------------------------------"
 action="$1"        # 操作
 mysql_Version="$2" # MySQL版本
 
-download_Url="https://dl-cdn.haozi.xyz" # 下载节点
-setup_Path="/www"                       # 面板安装目录
-mysql_Path="${setup_Path}/server/mysql" # MySQL目录
+download_Url="https://dl.panel.haozi.xyz" # 下载节点
+setup_Path="/www"                         # 面板安装目录
+mysql_Path="${setup_Path}/server/mysql"   # MySQL目录
 
 cpuCore=$(cat /proc/cpuinfo | grep "processor" | wc -l) # CPU核心数
 
@@ -65,7 +65,6 @@ slow-query-log-file = ${mysql_Path}/mysql-slow.log
 long_query_time = 3
 #log_queries_not_using_indexes = on
 log-error = ${mysql_Path}/mysql-error.log
-
 
 innodb_data_home_dir = ${mysql_Path}
 innodb_data_file_path = ibdata1:10M:autoextend
@@ -193,12 +192,12 @@ EOF
     systemctl enable mysqld
     systemctl start mysqld
     mysqlPassword=$(grep 'temporary password' ${mysql_Path}/mysql-error.log | awk -F ": " '{print $2}') # MySQL默认密码
+    mysqlNewPassword="A$(cat /dev/urandom | head -n 16 | md5sum | head -c 10)@"                         # MySQL新密码
     echo "MySQL临时root密码："${mysqlPassword}
-    mysql -uroot -p$mysqlPassword -e "drop database test"
-    mysql -uroot -p$mysqlPassword -e "delete from mysql.user where user='';"
-    mysql -uroot -p$mysqlPassword -e "flush privileges;"
-    mysqlNewPassword="A$(cat /dev/urandom | head -n 16 | md5sum | head -c 16)@" # MySQL新密码
-    mysql -uroot -p$mysqlPassword -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${mysqlNewPassword}';"
+    mysql --connect-expired-password -uroot -p$mysqlPassword -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${mysqlNewPassword}';"
+    mysql --connect-expired-password -uroot -p$mysqlNewPassword -e "drop database test"
+    mysql --connect-expired-password -uroot -p$mysqlNewPassword -e "delete from mysql.user where user='';"
+    mysql --connect-expired-password -uroot -p$mysqlNewPassword -e "flush privileges;"
     echo "MySQL初始root密码："${mysqlNewPassword}
     panel writeMysqlPassword ${mysqlNewPassword}
     systemctl restart mysqld

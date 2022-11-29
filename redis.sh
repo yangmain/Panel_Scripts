@@ -20,6 +20,13 @@ Install_Redis() {
     systemctl start redis
 
     # 安装 Redis 插件
+    rm -rf /www/panel/plugins/Redis
+    mkdir /www/panel/plugins/Redis
+    wget -O /www/panel/plugins/Redis/redis.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=redis"
+    cd /www/panel/plugins/Redis
+    unzip redis.zip && rm -rf redis.zip
+    # 写入插件安装状态
+    panel writePluginInstall redis
 }
 
 Uninstall_Redis() {
@@ -30,6 +37,7 @@ Uninstall_Redis() {
     dnf remove redis -y
     # 删除插件
     rm -rf /www/panel/plugins/redis
+    panel writePluginUnInstall redis
 }
 
 Update_Redis() {
@@ -40,13 +48,11 @@ Update_Redis() {
     # 启动redis
     systemctl start redis
     # 更新插件
-    #mysqlPluginVersion = $(wget -qO- -t1 -T2 "https://api.panel.haozi.xyz/api/plugin/version?slug=mysql")
-    #mysqlPluginUrl = $(wget -qO- -t1 -T2 "https://api.panel.haozi.xyz/api/plugin/url?slug=mysql")
-    rm -rf /www/panel/plugins/redis
-    mkdir /www/panel/plugins/redis
-    #wget -O /www/panel/plugins/mysql/mysql.zip ${mysqlPluginUrl}
-    #cd /www/panel/plugins/mysql
-    #unzip mysql.zip && rm -rf mysql.zip
+    rm -rf /www/panel/plugins/Redis
+    mkdir /www/panel/plugins/Redis
+    wget -O /www/panel/plugins/Redis/redis.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=redis"
+    cd /www/panel/plugins/Redis
+    unzip redis.zip && rm -rf redis.zip
 }
 
 if [ "$action" == 'install' ]; then
