@@ -614,152 +614,152 @@ http {
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
         location /phpfpm_100_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+            fastcgi_pass unix:/tmp/php-cgi-100.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_101_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_101_status {
+            fastcgi_pass unix:/tmp/php-cgi-101.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_102_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_102_status {
+            fastcgi_pass unix:/tmp/php-cgi-102.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_103_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_103_status {
+            fastcgi_pass unix:/tmp/php-cgi-103.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_104_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_104_status {
+            fastcgi_pass unix:/tmp/php-cgi-104.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_105_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_105_status {
+            fastcgi_pass unix:/tmp/php-cgi-105.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_106_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_106_status {
+            fastcgi_pass unix:/tmp/php-cgi-106.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_107_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_107_status {
+            fastcgi_pass unix:/tmp/php-cgi-107.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_108_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_108_status {
+            fastcgi_pass unix:/tmp/php-cgi-108.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_109_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_109_status {
+            fastcgi_pass unix:/tmp/php-cgi-109.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_110_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_110_status {
+            fastcgi_pass unix:/tmp/php-cgi-110.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_111_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_111_status {
+            fastcgi_pass unix:/tmp/php-cgi-111.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_112_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_112_status {
+            fastcgi_pass unix:/tmp/php-cgi-112.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_113_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_113_status {
+            fastcgi_pass unix:/tmp/php-cgi-113.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_114_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_114_status {
+            fastcgi_pass unix:/tmp/php-cgi-114.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_115_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_115_status {
+            fastcgi_pass unix:/tmp/php-cgi-115.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_116_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_116_status {
+            fastcgi_pass unix:/tmp/php-cgi-116.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_117_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_117_status {
+            fastcgi_pass unix:/tmp/php-cgi-117.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_118_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_118_status {
+            fastcgi_pass unix:/tmp/php-cgi-118.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_119_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_119_status {
+            fastcgi_pass unix:/tmp/php-cgi-119.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_120_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_120_status {
+            fastcgi_pass unix:/tmp/php-cgi-120.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_121_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_121_status {
+            fastcgi_pass unix:/tmp/php-cgi-121.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_122_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_122_status {
+            fastcgi_pass unix:/tmp/php-cgi-122.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_123_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_123_status {
+            fastcgi_pass unix:/tmp/php-cgi-123.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_124_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_124_status {
+            fastcgi_pass unix:/tmp/php-cgi-124.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_125_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_125_status {
+            fastcgi_pass unix:/tmp/php-cgi-125.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_126_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_126_status {
+            fastcgi_pass unix:/tmp/php-cgi-126.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_127_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_127_status {
+            fastcgi_pass unix:/tmp/php-cgi-127.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_128_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_128_status {
+            fastcgi_pass unix:/tmp/php-cgi-128.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
-		location /phpfpm_129_status {
-            fastcgi_pass unix:/tmp/php-cgi-99.sock;
+        location /phpfpm_129_status {
+            fastcgi_pass unix:/tmp/php-cgi-129.sock;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME \$fastcgi_script_name;
         }
@@ -823,7 +823,8 @@ EOF
 	# 处理文件权限
 	chmod 755 /www/server/nginx/
 	chmod 755 /www/server/nginx/html/
-	chmod 755 /www/wwwroot/
+	chmod -R 755 /www/wwwroot/
+	chown -R www:www /www/wwwroot/
 	chmod 644 /www/server/nginx/html/*
 
 	# 写入nginx 无php配置文件

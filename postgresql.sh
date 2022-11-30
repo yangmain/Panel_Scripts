@@ -14,9 +14,9 @@ postgresql_Path="${setup_Path}/server/postgresql" # PostgreSQL目录
 
 Download_PostgreSQL() {
     # 准备安装目录
-    rm -rf ${mysql_Path}
-    mkdir -p ${mysql_Path}
-    cd ${mysql_Path}
+    rm -rf ${postgresql_Path}
+    mkdir -p ${postgresql_Path}
+    cd ${postgresql_Path}
 
     rpm -Uvh https://mirrors.aliyun.com/postgresql/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
     sed -i "s@https://download.postgresql.org/pub@https://mirrors.aliyun.com/postgresql@g" /etc/yum.repos.d/pgdg-redhat-all.repo
