@@ -198,7 +198,7 @@ EOF
 	mkdir /www/panel/plugins/Php${php_Version}
 	wget -O /www/panel/plugins/Php${php_Version}/php${php_Version}.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=php${php_Version}"
 	cd /www/panel/plugins/Php${php_Version}
-	unzip php${php_Version}.zip && rm -rf php${php_Version}.zip
+	unzip -o php${php_Version}.zip && rm -rf php${php_Version}.zip
 	# 写入插件安装状态
 	panel writePluginInstall php${php_Version}
 }

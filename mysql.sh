@@ -207,7 +207,7 @@ EOF
     mkdir /www/panel/plugins/Mysql
     wget -O /www/panel/plugins/Mysql/mysql.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=mysql"
     cd /www/panel/plugins/Mysql
-    unzip mysql.zip && rm -rf mysql.zip
+    unzip -o mysql.zip && rm -rf mysql.zip
     # 写入插件安装状态
     panel writePluginInstall mysql
 }
@@ -237,7 +237,7 @@ Update_MySQL() {
     mkdir /www/panel/plugins/Mysql
     wget -O /www/panel/plugins/Mysql/mysql.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=mysql"
     cd /www/panel/plugins/Mysql
-    unzip mysql.zip && rm -rf mysql.zip
+    unzip -o mysql.zip && rm -rf mysql.zip
 }
 
 if [ "$action" == 'install' ]; then

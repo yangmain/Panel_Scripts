@@ -26,7 +26,7 @@ Download() {
         rm -rf ${phpmyadmin_Path}
         exit 1
     fi
-    unzip phpmyadmin.zip
+    unzip -o phpmyadmin.zip
     mv phpMyAdmin-${phpmyadmin_Version}-all-languages phpmyadmin_${randomDir}
     chown -R www:www ${phpmyadmin_Path}
     chmod -R 755 ${phpmyadmin_Path}
@@ -77,12 +77,15 @@ server
 }
 EOF
 
+    # 放行端口
+    firewall-cmd --permanent --zone=public --add-port=888/tcp >/dev/null 2>&1
+    firewall-cmd --reload
     # 安装 phpMyAdmin 插件
     rm -rf /www/panel/plugins/Phpmyadmin
     mkdir /www/panel/plugins/Phpmyadmin
     wget -O /www/panel/plugins/Phpmyadmin/phpmyadmin.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=phpmyadmin"
     cd /www/panel/plugins/Phpmyadmin
-    unzip phpmyadmin.zip && rm -rf phpmyadmin.zip
+    unzip -o phpmyadmin.zip && rm -rf phpmyadmin.zip
     # 写入插件安装状态
     panel writePluginInstall phpmyadmin
     # 重载 OpenResty

@@ -318,8 +318,12 @@ Download_Nginx() {
 	cd ${nginx_Path}
 	git clone -b lts https://magic.cdn.wepublish.cn/https://github.com/ADD-SP/ngx_waf.git
 	git clone https://gitee.com/mirrors/uthash.git
-	cd ngx_waf
-	git clone https://magic.cdn.wepublish.cn/https://github.com/libinjection/libinjection.git inc/libinjection
+	cd ngx_waf/inc
+	wget -O libinjection.zip ${download_Url}/nginx/libinjection-3.10.0.zip
+	unzip -o libinjection.zip
+	mv libinjection-3.10.0 libinjection
+	rm -rf libinjection.zip
+	cd ../
 	make -j${cpuCore}
 	if [ "$?" != "0" ]; then
 		echo -e $HR
@@ -331,12 +335,12 @@ Download_Nginx() {
 
 	# brotli
 	wget -O ngx_brotli.zip ${download_Url}/nginx/ngx_brotli-1.0.0rc.zip
-	unzip ngx_brotli.zip
+	unzip -o ngx_brotli.zip
 	mv ngx_brotli-1.0.0rc ngx_brotli
 	cd ngx_brotli/deps
 	rm -rf brotli
 	wget -O brotli.zip ${download_Url}/nginx/brotli-1.0.9.zip
-	unzip brotli.zip
+	unzip -o brotli.zip
 	mv brotli-1.0.9 brotli
 	cd ${nginx_Path}/src
 }
@@ -886,7 +890,7 @@ Init_Panel() {
 	# 下载面板zip包并解压
 	wget -O /www/panel/panel.zip ${download_Url}/panel/panel-${panel_Version}.zip
 	cd /www/panel
-	unzip panel.zip
+	unzip -o panel.zip
 	rm -rf panel.zip
 	# 写入面板命令别名
 	echo "alias panel='php-panel /www/panel/artisan panel'" >>/etc/profile

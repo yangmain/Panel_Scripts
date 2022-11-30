@@ -24,7 +24,7 @@ Install_Redis() {
     mkdir /www/panel/plugins/Redis
     wget -O /www/panel/plugins/Redis/redis.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=redis"
     cd /www/panel/plugins/Redis
-    unzip redis.zip && rm -rf redis.zip
+    unzip -o redis.zip && rm -rf redis.zip
     # 写入插件安装状态
     panel writePluginInstall redis
 }
@@ -52,7 +52,7 @@ Update_Redis() {
     mkdir /www/panel/plugins/Redis
     wget -O /www/panel/plugins/Redis/redis.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=redis"
     cd /www/panel/plugins/Redis
-    unzip redis.zip && rm -rf redis.zip
+    unzip -o redis.zip && rm -rf redis.zip
 }
 
 if [ "$action" == 'install' ]; then

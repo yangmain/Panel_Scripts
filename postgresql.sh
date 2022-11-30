@@ -36,7 +36,7 @@ Install_PostgreSQL() {
     mkdir /www/panel/plugins/Postgresql
     wget -O /www/panel/plugins/Postgresql/postgresql.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=postgresql"
     cd /www/panel/plugins/Postgresql
-    unzip postgresql.zip && rm -rf postgresql.zip
+    unzip -o postgresql.zip && rm -rf postgresql.zip
     # 写入插件安装状态
     panel writePluginInstall postgresql
 }
@@ -64,7 +64,7 @@ Update_PostgreSQL() {
     mkdir /www/panel/plugins/Postgresql
     wget -O /www/panel/plugins/Postgresql/postgresql.zip "https://api.panel.haozi.xyz/api/plugin/url?slug=postgresql"
     cd /www/panel/plugins/Postgresql
-    unzip postgresql.zip && rm -rf postgresql.zip
+    unzip -o postgresql.zip && rm -rf postgresql.zip
 }
 
 if [ "$action" == 'install' ]; then
