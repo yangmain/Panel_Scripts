@@ -261,6 +261,11 @@ EOF
 	\cp ${php_Path}/src/sapi/fpm/php-fpm.service /lib/systemd/system/php-fpm-panel.service
 	sed -i "s#ExecStart=/www/server/php/panel/sbin/php-fpm --nodaemonize --fpm-config /www/server/php/panel/etc/php-fpm.conf#ExecStart=/www/server/php/panel/sbin/php-fpm -R --nodaemonize --fpm-config /www/server/php/panel/etc/php-fpm.conf#g" /lib/systemd/system/php-fpm-panel.service
 	sed -i "/PrivateTmp/d" /lib/systemd/system/php-fpm-panel.service
+	sed -i "s/ProtectSystem=full/ProtectSystem=false/g" /lib/systemd/system/php-fpm-panel.service
+	sed -i "s/PrivateDevices=true/PrivateDevices=false/g" /lib/systemd/system/php-fpm-panel.service
+	sed -i "s/ProtectKernelModules=true/ProtectKernelModules=false/g" /lib/systemd/system/php-fpm-panel.service
+	sed -i "s/ProtectKernelTunables=true/ProtectKernelTunables=false/g" /lib/systemd/system/php-fpm-panel.service
+	sed -i "s/ProtectControlGroups=true/ProtectControlGroups=false/g" /lib/systemd/system/php-fpm-panel.service
 	systemctl daemon-reload
 
 	# 启动php

@@ -36,7 +36,7 @@ Uninstall_Redis() {
     # 删除 Redis
     dnf remove redis -y
     # 删除插件
-    rm -rf /www/panel/plugins/redis
+    rm -rf /www/panel/plugins/Redis
     panel writePluginUnInstall redis
 }
 
