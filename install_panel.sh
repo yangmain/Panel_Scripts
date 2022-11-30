@@ -86,8 +86,11 @@ Prepare_system() {
 
 	# 安装依赖
 	dnf install epel-release -y
-	yum config-manager --set-enabled PowerTools
-	yum config-manager --set-enabled powertools
+	dnf config-manager --set-enabled PowerTools
+	dnf config-manager --set-enabled powertools
+	dnf config-manager --set-enabled CRB
+	dnf config-manager --set-enabled Crb
+	dnf config-manager --set-enabled crb
 	/usr/bin/crb enable
 	for lib in gcc gcc-c++ make gd gd-devel git-core perl oniguruma oniguruma-devel libsodium libsodium-devel doxygen firewalld libtool libcurl libcurl-devel flex bison yajl yajl-devel curl-devel libtermcap-devel libevent-devel libuuid-devel lksctp-tools-devel brotli-devel redhat-rpm-config curl bzip2 tar libvpx-devel libzip-devel autoconf wget zip unzip libxml2 libxml2-devel libxslt* zlib zlib-devel libjpeg-devel libpng-devel libwebp-devel freetype freetype-devel lsof pcre pcre-devel crontabs icu libicu libicu-devel openssl openssl-devel c-ares libffi-devel bzip2-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel libpcap-devel xz-devel; do
 		dnf install ${lib} -y
