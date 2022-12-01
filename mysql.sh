@@ -9,9 +9,10 @@ HR="+----------------------------------------------------"
 action="$1"        # 操作
 mysql_Version="$2" # MySQL版本
 
-download_Url="https://dl.panel.haozi.xyz" # 下载节点
-setup_Path="/www"                         # 面板安装目录
-mysql_Path="${setup_Path}/server/mysql"   # MySQL目录
+download_Url="https://dl.panel.haozi.xyz"                               # 下载节点
+setup_Path="/www"                                                       # 面板安装目录
+mysql_Path="${setup_Path}/server/mysql"                                 # MySQL目录
+os_Version=$(cat /etc/redhat-release | sed -r 's/.* ([0-9]+)\.?.*/\1/') # 系统版本
 
 cpuCore=$(cat /proc/cpuinfo | grep "processor" | wc -l) # CPU核心数
 
@@ -22,7 +23,7 @@ Download_MySQL() {
     cd ${mysql_Path}
 
     dnf module disable mysql -y
-    rpm -Uvh http://mirrors.ustc.edu.cn/mysql-repo/mysql${mysql_Version}-community-release-el8.rpm
+    rpm -Uvh http://mirrors.ustc.edu.cn/mysql-repo/mysql${mysql_Version}-community-release-el${os_Version}.rpm
     sed -i 's@repo.mysql.com@mirrors.ustc.edu.cn/mysql-repo@g' /etc/yum.repos.d/mysql-community.repo
     dnf install mysql-community-server -y
 }
