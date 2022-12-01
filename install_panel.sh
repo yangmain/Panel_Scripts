@@ -35,7 +35,6 @@ Prepare_system() {
 	php_Version="8.1.13"                                                  # 面板PHP版本
 	nginx_Version="1.21.4.1"                                              # 面板Nginx版本
 	openssl_Version="1.1.1s"                                              # Nginx的openssl版本
-	panel_Version="20221130"                                              # 面板版本
 	sshPort=$(cat /etc/ssh/sshd_config | grep 'Port ' | awk '{print $2}') # 系统的SSH端口（部分服务器可能不是22）
 	cpuCore=$(cat /proc/cpuinfo | grep "processor" | wc -l)               # CPU核心数
 
@@ -401,6 +400,7 @@ Install_Nginx() {
 
 	# 写入nginx主配置文件
 	cat >${nginx_Path}/conf/nginx.conf <<EOF
+# 该文件非必要勿修改，如实需修改，请加于文件尾部
 user www www;
 worker_processes auto;
 error_log /www/wwwlogs/nginx_error.log crit;
@@ -422,6 +422,7 @@ events {
 
 http {
     include mime.types;
+    include proxy.conf;
     default_type application/octet-stream;
 
     server_names_hash_bucket_size 512;
@@ -467,6 +468,7 @@ http {
     server_tokens off;
     access_log off;
 
+    # 面板（请勿修改）
     server {
         listen 8888;
         server_name panel;
@@ -481,11 +483,12 @@ http {
 
         access_log /www/wwwlogs/panel.log;
     }
+    # 服务状态页
     server {
         listen 80;
         server_name 127.0.0.1;
         allow 127.0.0.1;
-        # 服务状态页
+
         location /nginx_status {
             stub_status on;
             access_log off;
@@ -856,8 +859,6 @@ proxy_temp_file_write_size 128k;
 proxy_next_upstream error timeout invalid_header http_500 http_503 http_404;
 proxy_cache cache_one;
 EOF
-	sed -i "s/#limit_conn_zone.*/limit_conn_zone \$binary_remote_addr zone=perip:10m;\n\tlimit_conn_zone \$server_name zone=perserver:10m;/" ${nginx_Path}/conf/nginx.conf
-	sed -i "s/mime.types;/mime.types;\n\t\tinclude proxy.conf;\n/" ${nginx_Path}/conf/nginx.conf
 
 	# 下载dh密钥
 	wget -O /etc/ssl/certs/dhparam.pem https://ssl-config.mozilla.org/ffdhe2048.txt
@@ -896,7 +897,7 @@ EOF
 Init_Panel() {
 	mkdir /www/panel
 	# 下载面板zip包并解压
-	wget -O /www/panel/panel.zip ${download_Url}/panel/panel-${panel_Version}.zip
+	wget -O /www/panel/panel.zip "https://api.panel.haozi.xyz/api/version/latest"
 	cd /www/panel
 	unzip -o panel.zip
 	rm -rf panel.zip
