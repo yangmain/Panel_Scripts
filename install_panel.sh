@@ -938,7 +938,7 @@ EOF
 	systemctl enable panel.service
 	systemctl start panel.service
 	# 写入计划任务
-	echo "*/1 * * * * php-panel /www/panel/artisan schedule:run >> /dev/null 2>&1" >>/var/spool/cron/root
+	echo "* * * * * cd /www/panel/ && php-panel artisan schedule:run >> /dev/null 2>&1" >>/var/spool/cron/root
 	# 重载计划任务
 	crontab /var/spool/cron/root
 	# 写入OpenResty插件安装状态
