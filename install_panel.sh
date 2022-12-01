@@ -97,7 +97,7 @@ Prepare_system() {
 
 	# 下载根证书
 	mkdir -p /etc/pki/tls/certs
-	wget -O /etc/pki/tls/certs/ca-bundle.crt https://curl.se/ca/cacert.pem
+	wget -T 20 -O /etc/pki/tls/certs/ca-bundle.crt https://curl.se/ca/cacert.pem
 	if [ "$?" != "0" ]; then
 		echo -e $HR
 		echo "错误：SSL根证书下载失败，请检查网络是否正常。"
@@ -134,7 +134,7 @@ Download_Php() {
 	cd ${php_Path}
 
 	# 下载源码
-	wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-${php_Version}.tar.gz
+	wget -T 180 -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-${php_Version}.tar.gz
 	if [ "$?" != "0" ]; then
 		echo -e $HR
 		echo "错误：面板PHP下载失败，请检查网络是否正常。"
@@ -283,40 +283,40 @@ Download_Nginx() {
 	cd ${nginx_Path}
 
 	# 下载源码
-	wget -O ${nginx_Path}/openresty-${nginx_Version}.tar.gz ${download_Url}/nginx/openresty-${nginx_Version}.tar.gz
+	wget -T 120 -O ${nginx_Path}/openresty-${nginx_Version}.tar.gz ${download_Url}/nginx/openresty-${nginx_Version}.tar.gz
 	tar -xvf openresty-${nginx_Version}.tar.gz
 	rm -f openresty-${nginx_Version}.tar.gz
 	mv openresty-${nginx_Version} src
 	cd src
 
 	# openssl
-	wget -O openssl.tar.gz ${download_Url}/nginx/openssl-${openssl_Version}.tar.gz
+	wget -T 120 -O openssl.tar.gz ${download_Url}/nginx/openssl-${openssl_Version}.tar.gz
 	tar -zxvf openssl.tar.gz
 	rm -f openssl.tar.gz
 	mv openssl-${openssl_Version} openssl
 	rm -f openssl.tar.gz
 
 	# pcre
-	wget -O pcre-8.45.tar.gz ${download_Url}/nginx/pcre-8.45.tar.gz
+	wget -T 60 -O pcre-8.45.tar.gz ${download_Url}/nginx/pcre-8.45.tar.gz
 	tar -zxvf pcre-8.45.tar.gz
 	rm -f pcre-8.45.tar.gz
 	mv pcre-8.45 pcre
 	rm -f pcre-8.45.tar.gz
 
 	# ngx_cache_purge
-	wget -O ngx_cache_purge.tar.gz ${download_Url}/nginx/ngx_cache_purge-2.3.tar.gz
+	wget -T 20 -O ngx_cache_purge.tar.gz ${download_Url}/nginx/ngx_cache_purge-2.3.tar.gz
 	tar -zxvf ngx_cache_purge.tar.gz
 	rm -f ngx_cache_purge.tar.gz
 	mv ngx_cache_purge-2.3 ngx_cache_purge
 	rm -f ngx_cache_purge.tar.gz
 
 	# nginx-sticky-module
-	wget -O nginx-sticky-module.zip ${download_Url}/nginx/nginx-sticky-module.zip
+	wget -T 20 -O nginx-sticky-module.zip ${download_Url}/nginx/nginx-sticky-module.zip
 	unzip -o nginx-sticky-module.zip
 	rm -f nginx-sticky-module.zip
 
 	# nginx-dav-ext-module
-	wget -c -O nginx-dav-ext-module-3.0.0.tar.gz ${download_Url}/nginx/nginx-dav-ext-module-3.0.0.tar.gz
+	wget -T 20 -O nginx-dav-ext-module-3.0.0.tar.gz ${download_Url}/nginx/nginx-dav-ext-module-3.0.0.tar.gz
 	tar -xvf nginx-dav-ext-module-3.0.0.tar.gz
 	rm -f nginx-dav-ext-module-3.0.0.tar.gz
 	mv nginx-dav-ext-module-3.0.0 nginx-dav-ext-module
@@ -326,7 +326,7 @@ Download_Nginx() {
 	git clone -b lts https://magic.cdn.wepublish.cn/https://github.com/ADD-SP/ngx_waf.git
 	git clone https://gitee.com/mirrors/uthash.git
 	cd ngx_waf/inc
-	wget -O libinjection.zip ${download_Url}/nginx/libinjection-3.10.0.zip
+	wget -T 60 -O libinjection.zip ${download_Url}/nginx/libinjection-3.10.0.zip
 	unzip -o libinjection.zip
 	mv libinjection-3.10.0 libinjection
 	rm -rf libinjection.zip
@@ -341,12 +341,12 @@ Download_Nginx() {
 	cd ${nginx_Path}/src
 
 	# brotli
-	wget -O ngx_brotli.zip ${download_Url}/nginx/ngx_brotli-1.0.0rc.zip
+	wget -T 20 -O ngx_brotli.zip ${download_Url}/nginx/ngx_brotli-1.0.0rc.zip
 	unzip -o ngx_brotli.zip
 	mv ngx_brotli-1.0.0rc ngx_brotli
 	cd ngx_brotli/deps
 	rm -rf brotli
-	wget -O brotli.zip ${download_Url}/nginx/brotli-1.0.9.zip
+	wget -T 20 -O brotli.zip ${download_Url}/nginx/brotli-1.0.9.zip
 	unzip -o brotli.zip
 	mv brotli-1.0.9 brotli
 	cd ${nginx_Path}/src
@@ -861,7 +861,7 @@ proxy_cache cache_one;
 EOF
 
 	# 下载dh密钥
-	wget -O /etc/ssl/certs/dhparam.pem https://ssl-config.mozilla.org/ffdhe2048.txt
+	wget -T 20 -O /etc/ssl/certs/dhparam.pem https://ssl-config.mozilla.org/ffdhe2048.txt
 	# 建立日志目录
 	mkdir -p /www/wwwlogs/waf
 	chown www.www /www/wwwlogs/waf
