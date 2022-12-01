@@ -13,6 +13,7 @@ download_Url="https://dl.panel.haozi.xyz"                               # 下载
 setup_Path="/www"                                                       # 面板安装目录
 mysql_Path="${setup_Path}/server/mysql"                                 # MySQL目录
 os_Version=$(cat /etc/redhat-release | sed -r 's/.* ([0-9]+)\.?.*/\1/') # 系统版本
+ipLocation=$(curl -s https://api.panel.haozi.xyz/api/ip/getIpLocation)  # 获取IP位置
 
 cpuCore=$(cat /proc/cpuinfo | grep "processor" | wc -l) # CPU核心数
 
@@ -23,9 +24,20 @@ Download_MySQL() {
     cd ${mysql_Path}
 
     dnf module disable mysql -y
-    rpm -Uvh http://mirrors.ustc.edu.cn/mysql-repo/mysql${mysql_Version}-community-release-el${os_Version}.rpm
-    sed -i 's@repo.mysql.com@mirrors.ustc.edu.cn/mysql-repo@g' /etc/yum.repos.d/mysql-community.repo
+    # 判断位置是否是中国
+    if [[ ${ipLocation} == "中国" ]]; then
+        rpm -Uvh http://mirrors.ustc.edu.cn/mysql-repo/mysql${mysql_Version}-community-release-el${os_Version}.rpm
+        sed -i 's@repo.mysql.com@mirrors.ustc.edu.cn/mysql-repo@g' /etc/yum.repos.d/mysql-community.repo
+    else
+        rpm -Uvh http://repo.mysql.com/mysql${mysql_Version}-community-release-el${os_Version}.rpm
+    fi
     dnf install mysql-community-server -y
+    # 检查是否安装成功
+    if [ "$?" != "0" ]; then
+        echo -e $HR
+        echo "错误：MySQL安装失败，请截图错误信息寻求帮助。"
+        exit 1
+    fi
 }
 
 Install_MySQL() {

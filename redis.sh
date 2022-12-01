@@ -12,6 +12,12 @@ redis_Version="$2" # Redis版本
 Download_Redis() {
     dnf module enable redis:${redis_Version} -y
     dnf install redis -y
+    # 检查是否安装成功
+    if [ "$?" != "0" ]; then
+        echo -e $HR
+        echo "错误：Redis安装失败，请截图错误信息寻求帮助。"
+        exit 1
+    fi
 }
 
 Install_Redis() {
