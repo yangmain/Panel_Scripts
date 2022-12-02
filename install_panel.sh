@@ -28,15 +28,25 @@ Prepare_system() {
 		exit 1
 	fi
 
-	download_Url="https://dl.panel.haozi.xyz"                             # 下载节点
-	setup_Path="/www"                                                     # 面板安装目录
-	php_Path="${setup_Path}/server/php/panel"                             # 面板PHP目录
-	nginx_Path="${setup_Path}/server/nginx"                               # 面板Nginx目录
-	php_Version="8.1.13"                                                  # 面板PHP版本
-	nginx_Version="1.21.4.1"                                              # 面板Nginx版本
-	openssl_Version="1.1.1s"                                              # Nginx的openssl版本
-	sshPort=$(cat /etc/ssh/sshd_config | grep 'Port ' | awk '{print $2}') # 系统的SSH端口（部分服务器可能不是22）
-	cpuCore=$(cat /proc/cpuinfo | grep "processor" | wc -l)               # CPU核心数
+	download_Url="https://dl.panel.haozi.xyz"                              # 下载节点
+	setup_Path="/www"                                                      # 面板安装目录
+	php_Path="${setup_Path}/server/php/panel"                              # 面板PHP目录
+	nginx_Path="${setup_Path}/server/nginx"                                # 面板Nginx目录
+	php_Version="8.1.13"                                                   # 面板PHP版本
+	nginx_Version="1.21.4.1"                                               # 面板Nginx版本
+	openssl_Version="1.1.1s"                                               # Nginx的openssl版本
+	sshPort=$(cat /etc/ssh/sshd_config | grep 'Port ' | awk '{print $2}')  # 系统的SSH端口（部分服务器可能不是22）
+	cpuCore=$(cat /proc/cpuinfo | grep "processor" | wc -l)                # CPU核心数
+	ipLocation=$(curl -s https://api.panel.haozi.xyz/api/ip/getIpLocation) # 获取IP位置
+
+	# 判断位置是否是中国并修改yum源
+	if [[ ${ipLocation} == "中国" ]]; then
+		sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+			-e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.sdu.edu.cn/rocky|g' \
+			-i.bak \
+			/etc/yum.repos.d/[Rr]ocky*.repo
+		dnf makecache
+	fi
 
 	# 如果核心数不合法，设置为1
 	if [ -z "${cpuCore}" ]; then
@@ -97,7 +107,12 @@ Prepare_system() {
 
 	# 下载根证书
 	mkdir -p /etc/pki/tls/certs
-	wget -T 20 -O /etc/pki/tls/certs/ca-bundle.crt https://curl.se/ca/cacert.pem
+	# 判断位置是否是中国
+	if [[ ${ipLocation} == "中国" ]]; then
+		wget -T 20 -O /etc/pki/tls/certs/ca-bundle.crt https://magic.cdn.wepublish.cn/https://curl.se/ca/cacert.pem
+	else
+		wget -T 20 -O /etc/pki/tls/certs/ca-bundle.crt https://curl.se/ca/cacert.pem
+	fi
 	if [ "$?" != "0" ]; then
 		echo -e $HR
 		echo "错误：SSL根证书下载失败，请检查网络是否正常。"
@@ -323,8 +338,14 @@ Download_Nginx() {
 
 	# waf
 	cd ${nginx_Path}
-	git clone -b lts https://magic.cdn.wepublish.cn/https://github.com/ADD-SP/ngx_waf.git
-	git clone https://gitee.com/mirrors/uthash.git
+	# 判断位置是否是中国
+	if [[ ${ipLocation} == "中国" ]]; then
+		git clone -b lts https://magic.cdn.wepublish.cn/https://github.com/ADD-SP/ngx_waf.git
+		git clone https://gitee.com/mirrors/uthash.git
+	else
+		git clone -b lts https://github.com/ADD-SP/ngx_waf.git
+		git clone https://github.com/troydhanson/uthash.git
+	fi
 	cd ngx_waf/inc
 	wget -T 60 -O libinjection.zip ${download_Url}/nginx/libinjection-3.10.0.zip
 	unzip -o libinjection.zip
@@ -861,7 +882,13 @@ proxy_cache cache_one;
 EOF
 
 	# 下载dh密钥
-	wget -T 20 -O /etc/ssl/certs/dhparam.pem https://ssl-config.mozilla.org/ffdhe2048.txt
+	# 判断位置是否是中国
+	if [[ ${ipLocation} == "中国" ]]; then
+		wget -T 20 -O /etc/ssl/certs/dhparam.pem https://magic.cdn.wepublish.cn/https://ssl-config.mozilla.org/ffdhe2048.txt
+	else
+		wget -T 20 -O /etc/ssl/certs/dhparam.pem https://ssl-config.mozilla.org/ffdhe2048.txt
+	fi
+
 	# 建立日志目录
 	mkdir -p /www/wwwlogs/waf
 	chown www.www /www/wwwlogs/waf
