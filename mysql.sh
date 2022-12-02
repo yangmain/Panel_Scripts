@@ -205,7 +205,7 @@ EOF
     systemctl enable mysqld
     systemctl start mysqld
     mysqlPassword=$(grep 'temporary password' ${mysql_Path}/mysql-error.log | awk -F ": " '{print $2}') # MySQL默认密码
-    mysqlNewPassword="A$(cat /dev/urandom | head -n 16 | md5sum | head -c 10)@"                         # MySQL新密码
+    mysqlNewPassword="HaoZi!@#0123$(cat /dev/urandom | head -n 16 | md5sum | head -c 20)"               # MySQL新密码
     echo "MySQL临时root密码："${mysqlPassword}
     mysql --connect-expired-password -uroot -p$mysqlPassword -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${mysqlNewPassword}';"
     mysql --connect-expired-password -uroot -p$mysqlNewPassword -e "drop database test"
