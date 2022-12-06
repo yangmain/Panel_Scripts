@@ -101,7 +101,7 @@ Prepare_system() {
 	dnf config-manager --set-enabled Crb
 	dnf config-manager --set-enabled crb
 	/usr/bin/crb enable
-	for lib in gcc gcc-c++ make gd gd-devel git-core perl oniguruma oniguruma-devel libsodium libsodium-devel doxygen firewalld libtool libcurl libcurl-devel flex bison yajl yajl-devel curl-devel libtermcap-devel libevent-devel libuuid-devel lksctp-tools-devel brotli-devel redhat-rpm-config curl bzip2 tar libvpx-devel libzip-devel autoconf wget zip unzip unrar libxml2 libxml2-devel libxslt* zlib zlib-devel libjpeg-devel libpng-devel libwebp-devel freetype freetype-devel lsof pcre pcre-devel crontabs icu libicu libicu-devel openssl openssl-devel c-ares libffi-devel bzip2-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel libpcap-devel xz-devel; do
+	for lib in gcc gcc-c++ glibc-headers make gd gd-devel git-core perl oniguruma oniguruma-devel libsodium libsodium-devel doxygen firewalld libtool libcurl libcurl-devel flex bison yajl yajl-devel curl-devel libtermcap-devel libevent-devel libuuid-devel lksctp-tools-devel brotli-devel redhat-rpm-config curl bzip2 tar libvpx-devel libzip-devel autoconf wget zip unzip unrar libxml2 libxml2-devel libxslt* zlib zlib-devel libjpeg-devel libpng-devel libwebp-devel freetype freetype-devel lsof pcre pcre-devel crontabs icu libicu libicu-devel openssl openssl-devel c-ares libffi-devel bzip2-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel libpcap-devel xz-devel; do
 		dnf install ${lib} -y
 	done
 
@@ -145,7 +145,7 @@ Auto_Swap() {
 Download_Php() {
 	# 准备安装目录
 	mkdir -p ${php_Path}
-	rm -rf ${php_Path}/src
+	rm -rf ${php_Path}/*
 	cd ${php_Path}
 
 	# 下载源码
@@ -294,7 +294,7 @@ EOF
 Download_Nginx() {
 	# 准备安装目录
 	mkdir -p ${nginx_Path}
-	rm -rf ${nginx_Path}/src
+	rm -rf ${nginx_Path}/*
 	cd ${nginx_Path}
 
 	# 下载源码
@@ -923,6 +923,7 @@ EOF
 
 Init_Panel() {
 	mkdir /www/panel
+	rm -rf /www/panel/*
 	# 下载面板zip包并解压
 	wget -O /www/panel/panel.zip "https://api.panel.haozi.xyz/api/version/latest"
 	cd /www/panel
