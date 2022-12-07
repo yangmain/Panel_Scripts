@@ -17,7 +17,7 @@ Install() {
         exit 1
     fi
     # 修改 pure-ftpd 配置文件
-    sed -i 's!# PureDB\s*@sysconfigdir@/pureftpd.pdb!PureDB @sysconfigdir@/pureftpd.pdb!' /etc/pure-ftpd/pure-ftpd.conf
+    sed -i 's!# PureDB\s*@sysconfigdir@/pureftpd.pdb!PureDB /etc/pure-ftpd/pureftpd.pdb!' /etc/pure-ftpd/pure-ftpd.conf
     sed -i 's!# ChrootEveryone\s*yes!ChrootEveryone yes!' /etc/pure-ftpd/pure-ftpd.conf
     sed -i 's!NoAnonymous\s*no!NoAnonymous yes!' /etc/pure-ftpd/pure-ftpd.conf
     sed -i 's!AnonymousCanCreateDirs\s*yes!AnonymousCanCreateDirs no!' /etc/pure-ftpd/pure-ftpd.conf
