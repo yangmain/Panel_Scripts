@@ -42,9 +42,13 @@ Prepare_system() {
 	# 判断位置是否是中国并修改yum源
 	if [[ ${ipLocation} == "中国" ]]; then
 		sed -e 's|^mirrorlist=|#mirrorlist=|g' \
-			-e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.sdu.edu.cn/rocky|g' \
+			-e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.aliyun.com/rockylinux|g' \
 			-i.bak \
 			/etc/yum.repos.d/[Rr]ocky*.repo
+		sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+			-e 's|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.aliyun.com|g' \
+			-i.bak \
+			/etc/yum.repos.d/[Aa]lmalinux*.repo
 		dnf makecache
 	fi
 
