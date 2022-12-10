@@ -40,8 +40,8 @@ action = %(action_mwl)s
 logpath = /var/log/secure
 # ssh-END
 
-# pure-ftp-START
-[pure-ftp]
+# pure-ftpd-START
+[pure-ftpd]
 enabled = true
 filter = pure-ftpd
 port = 21
@@ -50,7 +50,7 @@ findtime = 300
 bantime = 86400
 action = %(action_mwl)s
 logpath = /var/log/messages
-# pure-ftp-END
+# pure-ftpd-END
 EOF
     # 替换端口
     sshPort=$(cat /etc/ssh/sshd_config | grep 'Port ' | awk '{print $2}')
