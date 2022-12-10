@@ -76,6 +76,9 @@ server
     error_log /www/wwwlogs/phpmyadmin.log;
 }
 EOF
+    # 设置文件权限
+    chown -R root:root /www/server/vhost/phpmyadmin.conf
+    chmod -R 644 /www/server/vhost/phpmyadmin.conf
 
     # 放行端口
     firewall-cmd --permanent --zone=public --add-port=888/tcp >/dev/null 2>&1

@@ -874,7 +874,7 @@ EOF
     chmod 755 /www/server/nginx/
     chmod 755 /www/server/nginx/html/
     chmod -R 755 /www/wwwroot/
-    chmod -R 755 /www/server/vhost/
+    chmod -R 644 /www/server/vhost/
     chown -R www:www /www/wwwroot/
     chmod 644 /www/server/nginx/html/*
 
