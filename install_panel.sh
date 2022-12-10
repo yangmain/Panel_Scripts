@@ -28,7 +28,7 @@ Prepare_system() {
         exit 1
     fi
 
-    isInstalled=$(systemctl status panel | grep "Active")   
+    isInstalled=$(systemctl status panel | grep "Active")
     if [ "${isInstalled}" != "" ]; then
         echo -e $HR
         echo "错误：耗子Linux面板已安装，请勿重复安装。"
@@ -874,6 +874,7 @@ EOF
     chmod 755 /www/server/nginx/
     chmod 755 /www/server/nginx/html/
     chmod -R 755 /www/wwwroot/
+    chmod -R 755 /www/server/vhost/
     chown -R www:www /www/wwwroot/
     chmod 644 /www/server/nginx/html/*
 
