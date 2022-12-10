@@ -12,6 +12,12 @@ setup_Path="/www" # 面板安装目录
 Install() {
     # 安装s3fs
     dnf install -y s3fs-fuse
+    # 检查是否安装成功
+    if [ "$?" != "0" ]; then
+        echo -e $HR
+        echo "错误：s3fs安装失败，请截图错误信息寻求帮助。"
+        exit 1
+    fi
     dnf install -y mailcap
     # 安装插件
     rm -rf /www/panel/plugins/S3fs
