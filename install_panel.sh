@@ -106,6 +106,7 @@ Prepare_system() {
     fi
 
     # 安装依赖
+    dnf install dnf-plugins-core -y
     dnf install epel-release -y
     # 判断IP位置是否是中国并修改epel源
     if [[ ${ipLocation} == "中国" ]]; then
