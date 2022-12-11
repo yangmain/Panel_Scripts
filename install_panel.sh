@@ -28,7 +28,7 @@ Prepare_system() {
         exit 1
     fi
 
-    isInstalled=$(systemctl status panel | grep "Active")
+    isInstalled=$(systemctl status panel 2>&1 | grep "Active")
     if [ "${isInstalled}" != "" ]; then
         echo -e $HR
         echo "错误：耗子Linux面板已安装，请勿重复安装。"
@@ -56,8 +56,6 @@ Prepare_system() {
             -e 's|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.aliyun.com|g' \
             -i.bak \
             /etc/yum.repos.d/[Aa]lmalinux*.repo
-        sed -i 's|^#baseurl=https://download.example/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
-        sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
 
         dnf makecache
     fi
@@ -109,6 +107,12 @@ Prepare_system() {
 
     # 安装依赖
     dnf install epel-release -y
+    # 判断IP位置是否是中国并修改epel源
+    if [[ ${ipLocation} == "中国" ]]; then
+        sed -i 's|^#baseurl=https://download.example/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
+        sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
+        dnf makecache
+    fi
     dnf config-manager --set-enabled PowerTools
     dnf config-manager --set-enabled powertools
     dnf config-manager --set-enabled CRB
