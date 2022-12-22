@@ -967,6 +967,11 @@ EOF
 }
 
 Init_Panel() {
+    mkdir /www/server/cron
+    mkdir /www/server/cron/logs
+    chmod -R 700 /www/server/cron
+    chmod -R 600 /www/server/cron/logs
+    chmod -R 644 /www/server/vhost
     mkdir /www/panel
     rm -rf /www/panel/*
     # 下载面板zip包并解压
