@@ -108,6 +108,7 @@ Prepare_system() {
     # 安装依赖
     dnf install dnf-plugins-core -y
     dnf install epel-release -y
+    dnf config-manager --set-enabled epel
     # 判断IP位置是否是中国并修改epel源
     if [[ ${ipLocation} == "中国" ]]; then
         sed -i 's|^#baseurl=https://download.example/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
@@ -360,10 +361,34 @@ Download_Nginx() {
     # 判断位置是否是中国
     if [[ ${ipLocation} == "中国" ]]; then
         git clone -b lts https://magic.cdn.wepublish.cn/https://github.com/ADD-SP/ngx_waf.git
+        if [ "$?" != "0" ]; then
+            echo -e $HR
+            echo "错误：面板OpenResty waf拓展下载失败，请截图错误信息寻求帮助。"
+            rm -rf ${nginx_Path}
+            exit 1
+        fi
         git clone https://gitee.com/mirrors/uthash.git
+        if [ "$?" != "0" ]; then
+            echo -e $HR
+            echo "错误：面板OpenResty waf拓展uthash下载失败，请截图错误信息寻求帮助。"
+            rm -rf ${nginx_Path}
+            exit 1
+        fi
     else
         git clone -b lts https://github.com/ADD-SP/ngx_waf.git
+        if [ "$?" != "0" ]; then
+            echo -e $HR
+            echo "错误：面板OpenResty waf拓展下载失败，请截图错误信息寻求帮助。"
+            rm -rf ${nginx_Path}
+            exit 1
+        fi
         git clone https://github.com/troydhanson/uthash.git
+        if [ "$?" != "0" ]; then
+            echo -e $HR
+            echo "错误：面板OpenResty waf拓展uthash下载失败，请截图错误信息寻求帮助。"
+            rm -rf ${nginx_Path}
+            exit 1
+        fi
     fi
     cd ngx_waf/inc
     wget -T 60 -O libinjection.zip ${download_Url}/nginx/libinjection-3.10.0.zip
