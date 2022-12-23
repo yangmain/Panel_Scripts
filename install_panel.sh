@@ -494,6 +494,8 @@ http {
     client_header_buffer_size 32k;
     large_client_header_buffers 4 32k;
     client_max_body_size 200m;
+    client_body_buffer_size 10M;
+    client_body_in_file_only off;
 
     sendfile on;
     tcp_nopush on;
@@ -914,7 +916,6 @@ EOF
     cat >${nginx_Path}/conf/proxy.conf <<EOF
 proxy_temp_path ${nginx_Path}/proxy_temp_dir;
 proxy_cache_path ${nginx_Path}/proxy_cache_dir levels=1:2 keys_zone=cache_one:20m inactive=1d max_size=5g;
-client_body_buffer_size 512k;
 proxy_connect_timeout 60;
 proxy_read_timeout 60;
 proxy_send_timeout 60;
@@ -942,10 +943,9 @@ EOF
     # 写入服务文件
     cat >/lib/systemd/system/nginx.service <<EOF
 [Unit]
-Description=nginx - high performance web server
-Documentation=http://nginx.org/en/docs/
-After=network.target remote-fs.target nss-lookup.target
-Wants=network.target
+Description=The OpenResty Application Platform
+After=syslog.target network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
 
 [Service]
 Type=forking
