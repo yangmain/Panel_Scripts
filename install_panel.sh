@@ -979,7 +979,9 @@ Init_Panel() {
     cd /www/panel
     unzip -o panel.zip
     rm -rf panel.zip
-    chmod -R 755 /www/panel
+    chmod -R 600 /www/panel
+    chmod 755 /www/panel
+    chmod -R 755 /www/panel/public
     # 写入面板命令别名
     echo "alias panel='php-panel /www/panel/artisan panel'" >>/etc/profile
     source /etc/profile
