@@ -25,13 +25,13 @@ Download_Php() {
         wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-7.4.33.tar.gz
     fi
     if [ "${php_Version}" == "80" ]; then
-        wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-8.0.26.tar.gz
+        wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-8.0.27.tar.gz
     fi
     if [ "${php_Version}" == "81" ]; then
-        wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-8.1.13.tar.gz
+        wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-8.1.14.tar.gz
     fi
     if [ "${php_Version}" == "82" ]; then
-        wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-8.2.0.tar.gz
+        wget -O ${php_Path}/php-${php_Version}.tar.gz ${download_Url}/php/php-8.2.1.tar.gz
     fi
 
     if [ "$?" != "0" ]; then
