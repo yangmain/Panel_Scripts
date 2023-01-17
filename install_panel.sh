@@ -39,7 +39,7 @@ Prepare_system() {
     setup_Path="/www"                                                      # 面板安装目录
     php_Path="${setup_Path}/server/php/panel"                              # 面板PHP目录
     nginx_Path="${setup_Path}/server/nginx"                                # 面板Nginx目录
-    php_Version="8.1.13"                                                   # 面板PHP版本
+    php_Version="8.1.14"                                                   # 面板PHP版本
     nginx_Version="1.21.4.1"                                               # 面板Nginx版本
     openssl_Version="1.1.1s"                                               # Nginx的openssl版本
     sshPort=$(cat /etc/ssh/sshd_config | grep 'Port ' | awk '{print $2}')  # 系统的SSH端口（部分服务器可能不是22）
