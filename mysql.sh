@@ -25,13 +25,12 @@ Download_MySQL() {
 
     dnf module disable mysql -y
     # 判断位置是否是中国
-    # 由于目前镜像站均无法同步mysql，所以暂时不替换镜像源
-    #if [[ ${ipLocation} == "中国" ]]; then
-    #    rpm -Uvh http://mirrors.ustc.edu.cn/mysql-repo/mysql${mysql_Version}-community-release-el${os_Version}.rpm
-    #    sed -i 's@repo.mysql.com@mirrors.ustc.edu.cn/mysql-repo@g' /etc/yum.repos.d/mysql-community.repo
-    #else
+    if [[ ${ipLocation} == "中国" ]]; then
+        rpm -Uvh http://mirrors.ustc.edu.cn/mysql-repo/mysql${mysql_Version}-community-release-el${os_Version}.rpm
+        sed -i 's@repo.mysql.com@mirrors.ustc.edu.cn/mysql-repo@g' /etc/yum.repos.d/mysql-community.repo
+    else
         rpm -Uvh http://repo.mysql.com/mysql${mysql_Version}-community-release-el${os_Version}.rpm
-    #fi
+    fi
     dnf makecache
     dnf install mysql-community-server -y
     # 检查是否安装成功
