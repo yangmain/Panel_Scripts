@@ -32,6 +32,7 @@ Download_MySQL() {
     #else
         rpm -Uvh http://repo.mysql.com/mysql${mysql_Version}-community-release-el${os_Version}.rpm
     #fi
+    dnf makecache
     dnf install mysql-community-server -y
     # 检查是否安装成功
     if [ "$?" != "0" ]; then
@@ -241,6 +242,7 @@ Update_MySQL() {
     # 停止mysql
     systemctl stop mysqld
     # 更新mysql
+    dnf makecache
     dnf update mysql-community-server -y
     # 启动mysql
     systemctl start mysqld
