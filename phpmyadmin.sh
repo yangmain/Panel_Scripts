@@ -7,7 +7,7 @@ export PATH
 HR="+----------------------------------------------------"
 
 action="$1"                # 操作
-phpmyadmin_Version="5.2.0" # phpMyAdmin版本
+phpmyadmin_Version="5.2.1" # phpMyAdmin版本
 
 setup_Path="/www"                                                  # 面板安装目录
 phpmyadmin_Path="${setup_Path}/wwwroot/phpmyadmin"                 # phpMyAdmin目录
